@@ -5,7 +5,7 @@ from formulas import *
 app = Flask(__name__)
 api = Api(app)
 
-class CorrectedTemps(Resource):
+class AllDataWithCorrectedTemps(Resource):
 
 
     def get(self, original_gravity, original_temp, final_gravity, final_temp):
@@ -23,6 +23,20 @@ class CorrectedTemps(Resource):
             "alcohol_content": round(alcohol_content(corrected_original_gravity, corrected_final_gravity), 3),
             "attenuation": round(real_attenuation(original_gravity, final_gravity), 3),
             "calories": round(calories(original_gravity, final_gravity), 3)
+        }
+        return response
+
+
+class TemperatureCorrection(Resource):
+
+
+    def get(self, measured_gravity, temp_f):
+        response = {
+            "provided" : {
+                "measured_gravity": measured_gravity,
+                "temperature": temp_f
+            },
+            "corrected_gravity": corrected_sg(measured_gravity, temp_f)
         }
         return response
 
@@ -75,7 +89,7 @@ class HowMuchCO2(Resource):
 
 api.add_resource(GravitiesOnly, '/<float:original_gravity>/'
                                 '<float:final_gravity>')
-api.add_resource(CorrectedTemps, '/tempcorrected/<float:original_gravity>/'
+api.add_resource(AllDataWithCorrectedTemps, '/tempcorrected/<float:original_gravity>/'
                                  '<int:original_temp>/'
                                  '<float:final_gravity>/'
                                  '<int:final_temp>')
@@ -85,6 +99,8 @@ api.add_resource(HowMuchSugar, '/carbonation/howmuchsugar/<int:temp_f>/'
 api.add_resource(HowMuchCO2, '/carbonation/howmuchco2/<int:temp_f>/'
                              '<float:priming_sugar_grams>/'
                              '<float:volume_beer_gallons>')
+api.add_resource(TemperatureCorrection, '/temp_correction/<float:measured_gravity>/'
+                             '<int:temp_f>/')
 
 
 if __name__ == "__main__":
