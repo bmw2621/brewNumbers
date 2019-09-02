@@ -36,7 +36,7 @@ class TemperatureCorrection(Resource):
                 "measured_gravity": measured_gravity,
                 "temperature": temp_f
             },
-            "corrected_gravity": corrected_sg(measured_gravity, temp_f)
+            "corrected_gravity": round(corrected_sg(measured_gravity, temp_f),3)
         }
         return response
 
