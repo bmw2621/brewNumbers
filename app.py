@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Resource, Api
 from formulas import *
 
@@ -87,9 +87,9 @@ class HowMuchCO2(Resource):
         return response
 
 
-api.add_resource(GravitiesOnly, '/<float:original_gravity>/'
+api.add_resource(GravitiesOnly, '/all/no_correction/<float:original_gravity>/'
                                 '<float:final_gravity>')
-api.add_resource(AllDataWithCorrectedTemps, '/tempcorrected/<float:original_gravity>/'
+api.add_resource(AllDataWithCorrectedTemps, '/all/temp_corrected/<float:original_gravity>/'
                                  '<int:original_temp>/'
                                  '<float:final_gravity>/'
                                  '<int:final_temp>')
@@ -101,6 +101,11 @@ api.add_resource(HowMuchCO2, '/carbonation/howmuchco2/<int:temp_f>/'
                              '<float:volume_beer_gallons>')
 api.add_resource(TemperatureCorrection, '/temp_correction/<float:measured_gravity>/'
                              '<int:temp_f>/')
+
+@app.route('/')
+def home_func():
+    return render_template("home.html")
+
 
 
 if __name__ == "__main__":

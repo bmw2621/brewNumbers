@@ -1,0 +1,170 @@
+<html>
+<head>
+<link rel="stylesheet" href="../static/styles.css">
+<link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+<link rel="icon" href="../static/favicon.ico" type="image/x-icon">
+</head>
+  <body>
+    <div class='page'>
+      <div class='section header'>
+        <img src='static/logo.png' class="logo"/>
+        <h1>Brew Numbers</h1>
+      </div>
+      <div class='section purpose'>
+        <h1>Purpose</h1>
+        <p>Brew Numbers API provides users with data conversions associated with
+          their brewing projects.  The initial implementation uses formulas
+          published by Dr. Michael L. Hall's "Brew by the Numbers: Add up what's
+          in your Beer" in Zymergy Magazine, Summer 1995.</p>
+        <p>Brew Number's API currently provides gravity conversion, alcohol content,
+          calorie content, and carbonation level calculations for your next brewing
+          software project.</p>
+      </div>
+      <div class='section usage'>
+        <h1>Usage</h1>
+        <p>Brew Numbers API endpoints are reached through URL routing.  URL routing
+        is based on category of calculation, followed by parameters described in
+        the following documentation. All calculations are accurate with Temperature
+        readings between 32 and 200 Fahrenheit.</p>
+        <div class="example">http://18.216.248.93/::Category::/::Parameter::/::Parameter::</div>
+      </div>
+
+      <div class='section endpoint'>
+        <h1>All Data - No Temperature Correction</h1>
+        <p> Provided the initial gravity reading and final gravity readings, brewing
+        API returns alcohol content, attenuation, and calories in solution. </p>
+        <h3>Parameters</h3>
+        <p>Initial Gravity Reading [float]<br>
+          Final Gravity Reading [float]</p>
+        <h3>Example Call</h3>
+        <div class="example">http://18.216.248.93/all/no_correction/1.065/1.014</div>
+        <h3>Example Return</h3>
+        <div class="example">
+          <pre>
+{
+  "provided": {
+    "original_gravity": 1.065,
+    "final_gravity": 1.014
+  },
+    "alcohol_content": 5.251,
+    "attenuation": 62.719,
+    "calories": 221.173
+}
+          </pre>
+        </div>
+      </div>
+
+      <div class='section endpoint'>
+        <h1>All Data - Temperature Corrected</h1>
+        <p> Provided the initial gravity reading, final gravity readings, and
+          associated temperature readings, Brew Numbers API returns alcohol
+          content, attenuation, and calories in solution. </p>
+        <h3>Parameters</h3>
+        <p>Initial Gravity Reading [float]<br>
+          Initial Temp Reading [integer]<br>
+          Final Gravity Reading [float]<br>
+          Final Temp Reading [integer]</p>
+        <h3>Example Call</h3>
+        <div class="example">http://18.216.248.93/all/temp_corrected/1.065/75/1.014/53</div>
+        <h3>Example Return</h3>
+        <div class="example">
+          <pre>
+{
+  "provided": {
+    "original_gravity": 1.065,
+    "original_temp": 75,
+    "final_gravity": 1.014,
+    "final_temp": 53
+  },
+  "corrected_original_gravity": 1.067,
+  "corrected_final_gravity": 1.014,
+  "alcohol_content": 5.46,
+  "attenuation": 62.719,
+  "calories": 221.173
+}
+          </pre>
+        </div>
+      </div>
+
+      <div class='section endpoint'>
+        <h1>Specific Gravity Temperature Correction</h1>
+        <p>Provided the gravity reading and the temperature at time of reading,
+        Brew Math API returns the corrected gravity</p>
+        <h3>Parameters</h3>
+        <p>Specific Gravity Reading [float]<br>
+          Temperature in Fahrenheit [integer]</p>
+        <h3>Example Call</h3>
+        <div class="example">http://18.216.248.93/temp_correction/1.065/76/</div>
+        <h3>Example Return</h3>
+        <div class="example">
+          <pre>
+{
+  "provided": {
+    "measured_gravity": 1.065,
+    "temperature": 76
+  },
+  "corrected_gravity": 1.067
+}
+          </pre>
+        </div>
+      </div>
+
+      <div class='section endpoint'>
+        <h1>Priming Sugar Requirement</h1>
+        <p>Provided the fermentation temperature in fahrenheit, desired volume
+        of CO<sub>2</sub>, and volume of batch in gallons, Brew Numbers API Returns
+        the required amount of priming sugar in grams.</p>
+        <h3>Parameters</h3>
+        <p>Temperature in Fahrenheit [integer]<br>
+          Desired Volumes of CO<sub>2</sub> [float]<br>
+          Volume of Beer in Gallons [float]</p>
+        <h3>Example Call</h3>
+        <div class="example">http://18.216.248.93/carbonation/howmuchsugar/65/33.0/10.0</div>
+        <h3>Example Return</h3>
+        <div class="example">
+          <pre>
+{
+  "provided": {
+    "temp_in_f": 65,
+    "desired_co2": 33.0,
+    "volume_beer_gallons": 10.0
+  },
+  "req_gramms_priming_sugar": 4876.726035937499
+}
+          </pre>
+        </div>
+      </div>
+
+      <div class='section endpoint'>
+        <h1>CO<sub>2 in Solution</sub></h1>
+        <p>Provided the fermentation temperature in fahrenheit, mass of priming
+          sugar in grams, and volume of batch in gallons, Brew Numbers API returns
+          the volumes of CO<sub>2</sub> in solution.</p>
+        <h3>Parameters</h3>
+        <p>Temperature in Fahrenheit [integer]<br>
+          Mass of Priming Sugar in grams [float]<br>
+          Volume of Beer in Gallons [float]</p>
+        <h3>Example Call</h3>
+        <div class="example">http://18.216.248.93/carbonation/howmuchco2/65/3.5/10.0</div>
+        <h3>Example Return</h3>
+        <div class="example">
+          <pre>
+{
+  "provided": {
+    "temp_in_f": 62,
+    "priming_sugar_grams": 3.5,
+    "volume_beer_gallons": 10.0
+  },
+  "req_gramms_priming_sugar": 0.98
+}
+          </pre>
+        </div>
+      </div>
+
+    </div>
+    <footer>
+      <p>A Project by Ben Winchester</p>
+      <p>Source Code available at http://github.com/bmw2621/brewNumbers</p>
+    </footer>
+  </body>
+</html>
