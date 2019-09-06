@@ -67,7 +67,7 @@ class HowMuchSugar(Resource):
                 "desired_co2": desired_co2,
                 "volume_beer_gallons": volume_beer_gallons
             },
-            "req_gramms_priming_sugar": how_much_sugar(temp_f, desired_co2, volume_beer_gallons)
+            "req_grams_priming_sugar": round(how_much_sugar(temp_f, desired_co2, volume_beer_gallons), 2)
         }
         return response
 
@@ -82,7 +82,7 @@ class HowMuchCO2(Resource):
                 "priming_sugar_grams": priming_sugar_grams,
                 "volume_beer_gallons": volume_beer_gallons
             },
-            "req_gramms_priming_sugar": round(carbon_dioxide(temp_f, priming_sugar_grams, volume_beer_gallons), 2)
+            "co2": round(carbon_dioxide(temp_f, priming_sugar_grams, volume_beer_gallons), 2)
         }
         return response
 
