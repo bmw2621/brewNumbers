@@ -8,4 +8,4 @@ MarkupSafe==1.1.1
 pytz==2019.3
 six==1.13.0
 Werkzeug==0.16.0
-pytest==5.3.2
+pytest==5.3.4
