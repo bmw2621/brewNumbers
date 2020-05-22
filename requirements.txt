@@ -6,6 +6,6 @@ itsdangerous==1.1.0
 Jinja2==2.11.1
 MarkupSafe==1.1.1
 pytz==2019.3
-six==1.14.0
+six==1.15.0
 Werkzeug==0.16.1
 pytest==5.3.5
