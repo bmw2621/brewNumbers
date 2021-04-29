@@ -1,0 +1,23 @@
+version: 2
+updates:
+- package-ecosystem: pip
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "10:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: aniso8601
+    versions:
+    - 8.1.0
+    - 8.1.1
+    - 9.0.0
+  - dependency-name: pytest
+    versions:
+    - 6.2.2
+  - dependency-name: pytz
+    versions:
+    - "2020.5"
+  - dependency-name: jinja2
+    versions:
+    - 2.11.2
