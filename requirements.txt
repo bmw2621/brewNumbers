@@ -2,7 +2,7 @@ aniso8601==8.0.0
 Click==7.0
 Flask==1.1.1
 Flask-RESTful==0.3.7
-itsdangerous==1.1.0
+itsdangerous==2.0.1
 Jinja2==2.11.1
 MarkupSafe==1.1.1
 pytz==2019.3
